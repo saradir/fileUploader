@@ -10,6 +10,8 @@ import path from 'node:path';
 
 
 import { userRouter } from './routers/userRouter';
+import { folderRouter } from './routers/folderRouter';
+import { fileRouter } from './routers/fileRouter';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -43,6 +45,8 @@ app.use((req, res, next) => {
 })
 
 app.use('/u', userRouter);
+app.use('/f', folderRouter);
+app.use('/file', fileRouter)
 
 app.get("/", (_req, res) => {
   res.render("homepage", {

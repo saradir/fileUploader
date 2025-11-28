@@ -8,6 +8,7 @@
 
     <% if(locals.currentUser) { %>
         Welcome <%=currentUser.name %>
+        <a href="/file/upload">Upload File</a>
         <% }else{ %> 
     <p>Already a member? Sign in 
         <a href="/u/signin/">here</a>
@@ -15,8 +16,6 @@
         <a href="/u/signup/">here</a>
     </p>
     <% } %>
-
-
-    
+   
 </body>
 </html>
