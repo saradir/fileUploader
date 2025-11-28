@@ -8,10 +8,14 @@ export function renderSignupScreen(req, res){
     });
 }
 
+export function renderSigninForm(req, res){
+    res.render('signinForm', {
+        title: "Sign In"
+    });
+}
+
 export async function createUser(req, res, next){
     const data = matchedData(req);
-    console.log("matched data:", data);
-
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         return res.status(400).render("signupForm", {
@@ -37,4 +41,41 @@ export async function createUser(req, res, next){
         next(err);
 
     }
+}
+
+export async function signin(req, res, next){
+        const data = matchedData(req);
+        const errors = validationResult(req);
+
+        if(!errors.isEmpty()){
+            return res.status(400).render("signinForm", {
+            errors: errors.array(),
+            oldInput: data 
+        });
+    }
+    try{
+        const user = await prisma.user.findUnique({
+            where: {email: data.email}
+        });
+
+        if (!user) {
+            return res.status(400).render("signinForm", {
+                errors: [{ msg: "Invalid email or password" }]
+            });
+            }
+        
+        const match = await bcrypt.compare(data.password, user.password);
+
+        if(!match){
+                return res.status(400).render("signinForm", {
+                errors: [{ msg: "Invalid email or password" }]
+            });
+            }
+        req.login(user, err => {
+        if (err) return next(err);
+            return res.redirect("/");
+            });
+        } catch (err){
+            next(err);
+        }
 }

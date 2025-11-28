@@ -7,7 +7,7 @@
     <h1>Welcome!</h1>
 
     <% if(locals.currentUser) { %>
-        Welcome <%=user.first_name %>
+        Welcome <%=currentUser.name %>
         <% }else{ %> 
     <p>Already a member? Sign in 
         <a href="/u/signin/">here</a>

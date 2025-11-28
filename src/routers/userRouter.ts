@@ -7,3 +7,6 @@ export const userRouter = express.Router();
 userRouter.get('/signup', userController.renderSignupScreen);
 userRouter.post('/signup', userValidator.signupValidator, userController.createUser);
 
+userRouter.get('/signin', userController.renderSigninForm);
+userRouter.post('/signin', userValidator.signinValidator, userController.signin );
+
