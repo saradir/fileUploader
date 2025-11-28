@@ -1,12 +1,25 @@
+import 'dotenv/config';              
 import express from "express";
 import session from "express-session";
 import passport from "passport";
-import { PrismaClient } from "@prisma/client";
+import { prisma } from './lib/prisma'
+import { fileURLToPath } from 'node:url';
 import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import "./config/passport";
+import path from 'node:path';
 
-const prisma = new PrismaClient();
+
+import { userRouter } from './routers/userRouter';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const app = express();
+const PORT = process.env.PORT || 3000;
 
+app.use(express.static('public'));
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
@@ -24,19 +37,17 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// placeholder
-passport.serializeUser((user: any, done) => done(null, user.id));
-passport.deserializeUser(async (id: number, done) => {
-  try {
-    const user = await prisma.user.findUnique({ where: { id } });
-    done(null, user);
-  } catch (e) {
-    done(e);
-  }
-});
+
+app.use('/u', userRouter);
 
 app.get("/", (_req, res) => {
-  res.send("Template working");
+  res.render("homepage", {
+    title: "Homepage"
+  });
+});
+
+app.listen(PORT, () => {
+    console.log(`server running on http://localhost:${PORT}`);
 });
 
 export default app;
