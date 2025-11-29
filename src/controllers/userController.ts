@@ -73,9 +73,26 @@ export async function signin(req, res, next){
             }
         req.login(user, err => {
         if (err) return next(err);
-            return res.redirect("/");
+        return res.redirect(`/u/${user.id}`);
             });
         } catch (err){
             next(err);
         }
+}
+
+export async function showProfile(req, res, next){
+    try{
+        const id = Number(req.params.id);
+        const user = await prisma.user.findUnique({
+            where: {id}
+        });
+        const folders = await prisma.folder.findMany({ select: { id:true, name: true}});
+        res.render('profile', {
+            title: `${req.user.name}'s Profile`,
+            folders
+        });
+    } catch (error){
+        next(error);
+    }
+
 }

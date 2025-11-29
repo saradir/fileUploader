@@ -1,6 +1,7 @@
 import express from 'express';
 import * as userController from '../controllers/userController';
 import * as userValidator from '../validators/userValidator';
+import { ensureAuth } from "../utils/authenticate";
 
 export const userRouter = express.Router();
 
@@ -10,3 +11,4 @@ userRouter.post('/signup', userValidator.signupValidator, userController.createU
 userRouter.get('/signin', userController.renderSigninForm);
 userRouter.post('/signin', userValidator.signinValidator, userController.signin );
 
+userRouter.get('/:id', ensureAuth, userController.showProfile);

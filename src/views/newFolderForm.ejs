@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head');
+<body>
+    <div class="container">
+       <% include('./partials/errors')%>
+
+        <form action='/f/new' method="post">
+            <label for="name">Name:</label>
+            <input type="name" id="name" name="name" required>
+
+            <button type="submit">Create Folder</button>
+        </form>
+    </div>
+    
+    
+</body>
+</html>

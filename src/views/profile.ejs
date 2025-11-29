@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head') %>
+<body>
+    <div class="container">
+        
+        <h1>Welcome <%=currentUser.name%></h1>
+
+        <div class="folderContainer">
+            <h2>My Folders</h2>
+            <% if(folders.length === 0){ %>
+                <p>No folders yet. </p>
+                <p>Create
+                    <a href="/f/new">New</a>.
+                </p>
+            <% } %>
+
+            <% folders.forEach(folder => { %>
+                <div class="folderCard">
+                    <span class="folderName">
+                        Name: <%= folder.name %>
+                    </span>
+                    <span>
+                        <a href="<% `/f/${folder.id}` %>" >Open</a>    
+                    </span>
+                    
+                </div>
+                
+           <% }); %>
+
+            </div>
+        </div>
+    
+</body>
+</html>
