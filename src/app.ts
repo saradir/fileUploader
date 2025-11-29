@@ -13,6 +13,8 @@ import { userRouter } from './routers/userRouter';
 import { folderRouter } from './routers/folderRouter';
 import { fileRouter } from './routers/fileRouter';
 
+import { ensureAuth } from './utils/authenticate';
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -45,8 +47,8 @@ app.use((req, res, next) => {
 })
 
 app.use('/u', userRouter);
-app.use('/f', folderRouter);
-app.use('/file', fileRouter)
+app.use('/f', ensureAuth, folderRouter);
+app.use('/file', ensureAuth, fileRouter)
 
 app.get("/", (_req, res) => {
   res.render("homepage", {
