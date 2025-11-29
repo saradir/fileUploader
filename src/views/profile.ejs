@@ -10,26 +10,26 @@
             <h2>My Folders</h2>
             <% if(folders.length === 0){ %>
                 <p>No folders yet. </p>
-                <p>Create
-                    <a href="/f/new">New</a>.
-                </p>
+
             <% } %>
 
             <% folders.forEach(folder => { %>
                 <div class="folderCard">
-                    <span class="folderName">
-                        Name: <%= folder.name %>
-                    </span>
+
                     <span>
-                        <a href="<% `/f/${folder.id}` %>" >Open</a>    
+                        <a href="<% `/f/${folder.id}` %>" > <%= folder.name %></a>    
                     </span>
                     
                 </div>
                 
            <% }); %>
 
-            </div>
+
         </div>
+        <p>Create
+            <a href="/f/new">New</a>.
+        </p>
+    </div>
     
 </body>
 </html>
