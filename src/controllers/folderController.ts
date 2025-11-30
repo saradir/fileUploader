@@ -3,9 +3,29 @@ import { prisma } from '../lib/prisma';
 
 
 export function renderNewFolderForm(req, res, next){
-  res.render("newFolderForm", {
+  res.render("createFolder", {
     title: "New Folder"
   });
+}
+
+export async function showFolder(req, res, next){
+    try{
+        const folderId = Number(req.params.id);
+        const folder = await prisma.folder.findUnique({
+            where: { id: folderId},
+            include: {files: true}
+        });
+
+        if(!folder){
+            throw new Error("Folder not found");
+        }
+        return res.render("showFolder", {
+            title: `${folder.name}`,
+            folder
+        });
+    } catch (error){
+        next(error);
+    }
 }
 
 export function renderUpdateFolderForm(req, res, next){
@@ -48,9 +68,5 @@ export async function updateFolder(req,res,next){
 }
 
 export async function deleteFolder(req, res, next){
-    return;
-}
-
-export async function showFolder(req, res, next){
     return;
 }
