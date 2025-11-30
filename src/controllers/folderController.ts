@@ -68,7 +68,6 @@ export async function updateFolder(req,res,next){
 }
 
 export async function deleteFolder(req, res, next){
-
     try{
         const deletedFolder = await prisma.folder.delete({
             where: {id: req.folder.id }

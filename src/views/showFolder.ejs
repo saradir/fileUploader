@@ -22,7 +22,9 @@
         <a href="<%= `/f/${folder.id}/file/upload` %>">Upload new file</a>
 
         <a href="<%= `/f/${folder.id}/delete` %>">Delete Folder</a>
-
+        <form action="/f/<%= folder.id %>/delete" method="post" onsubmit="return confirm('Delete this folder?');">
+            <button type="submit">Delete Folder</button>
+        </form>
 
 
     </div>
