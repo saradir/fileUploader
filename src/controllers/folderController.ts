@@ -69,11 +69,11 @@ export async function updateFolder(req,res,next){
 
 export async function deleteFolder(req, res, next){
 
-    const folderId = Number(req.params.folderId);
     try{
         const deletedFolder = await prisma.folder.delete({
-            where: {id: folderId }
+            where: {id: req.folder.id }
         });
+        return res.redirect(`/u/${req.user.id}`);
     } catch (error){
         next(error);
     }
