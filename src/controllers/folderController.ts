@@ -10,14 +10,14 @@ export function renderNewFolderForm(req, res, next){
 
 export async function showFolder(req, res, next){
     try{
-        const folderId = Number(req.params.id);
-        const folder = await prisma.folder.findUnique({
-            where: { id: folderId},
-            include: {files: true}
-        });
+        const folder = req.folder ||
+            await prisma.folder.findUnique({
+                where: { id: Number(req.params.folderId) },
+                include: {files: true}
+            });
 
         if(!folder){
-            throw new Error("Folder not found");
+            return res.status(404).send("Folder not found");
         }
         return res.render("showFolder", {
             title: `${folder.name}`,
@@ -68,5 +68,13 @@ export async function updateFolder(req,res,next){
 }
 
 export async function deleteFolder(req, res, next){
-    return;
+
+    const folderId = Number(req.params.folderId);
+    try{
+        const deletedFolder = await prisma.folder.delete({
+            where: {id: folderId }
+        });
+    } catch (error){
+        next(error);
+    }
 }

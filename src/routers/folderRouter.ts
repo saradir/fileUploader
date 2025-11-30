@@ -1,11 +1,13 @@
 import express from 'express';
 import * as folderController from '../controllers/folderController';
 import * as folderValidator from "../validators/folderValidator";
+import { ownsFolder } from '../middleware/auth/ownsFolder';
 export const folderRouter = express.Router();
+
 
 folderRouter.get('/new', folderController.renderNewFolderForm);
 folderRouter.post('/new', folderValidator.createFolderValidator, folderController.createFolder);
-folderRouter.get('/:id/edit', folderController.renderUpdateFolderForm);
-folderRouter.post('/:id/edit', folderController.updateFolder);
-folderRouter.post('/:id/delete', folderController.deleteFolder);
-folderRouter.get('/:id', folderController.showFolder);
+folderRouter.get('/:folderId/edit', ownsFolder, folderController.renderUpdateFolderForm);
+folderRouter.post('/:folderId/edit', ownsFolder, folderController.updateFolder);
+folderRouter.post('/:folderId/delete', ownsFolder, folderController.deleteFolder);
+folderRouter.get('/:folderId', ownsFolder, folderController.showFolder);

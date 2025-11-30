@@ -1,7 +1,8 @@
 import express from 'express';
 import * as userController from '../controllers/userController';
 import * as userValidator from '../validators/userValidator';
-import { ensureAuth } from "../utils/authenticate";
+import { ensureAuth } from "../middleware/auth/ensureAuth";
+import { ownsProfile } from '../middleware/auth/ownsProfile';
 
 export const userRouter = express.Router();
 
@@ -11,4 +12,4 @@ userRouter.post('/signup', userValidator.signupValidator, userController.createU
 userRouter.get('/signin', userController.renderSigninForm);
 userRouter.post('/signin', userValidator.signinValidator, userController.signin );
 
-userRouter.get('/:id', ensureAuth, userController.showProfile);
+userRouter.get('/:id', ensureAuth, ownsProfile, userController.showProfile);
