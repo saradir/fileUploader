@@ -46,9 +46,10 @@ app.use((req, res, next) => {
   next();
 })
 
+// ROUTERS
 app.use('/u', userRouter);
 app.use('/f', ensureAuth, folderRouter);
-app.use('f/:folderId/files', ensureAuth, fileRouter);
+app.use('/f/:folderId/file', ensureAuth, fileRouter);
 
 app.get("/", (_req, res) => {
   res.render("homepage", {

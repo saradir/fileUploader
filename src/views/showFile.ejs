@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include("./partials/head") %>
+<body>
+    <div class="container">
+        
+        <h2>File Information</h2>
+        <div class="file-info">
+            <div class="file-name">Name: <%= file.originalName %></div>
+            <div class="file-size">Size: <%= file.size %> bytes</div>
+            <div class="file-date">Upload time: <%= file.uploadedAt %></div>
+        </div>
+        <button class="download-file-btn">Download File</button>
+    </div>
+</body>
+</html>

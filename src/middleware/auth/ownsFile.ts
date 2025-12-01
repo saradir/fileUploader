@@ -3,7 +3,7 @@ import { prisma } from '../../lib/prisma';
 export async function ownsFile(req, res, next){
     const fileId = Number(req.params.fileId);
 
-    const file = await prisma.folder.findUnique({
+    const file = await prisma.file.findUnique({
         where: {id: fileId}
     });
     if (!file) {

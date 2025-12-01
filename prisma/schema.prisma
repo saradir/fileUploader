@@ -20,6 +20,7 @@ model User{
   password String
   folders Folder[]
   files File[]
+  createdAt DateTime @default(now())
 }
 
 model Folder{
@@ -28,17 +29,24 @@ model Folder{
   owner User @relation(fields: [ownerId], references: [id])
   ownerId Int
   files File[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([ownerId, name])
 }
 
 model File{
   id Int @id @default(autoincrement())
+  originalName String
   name String
   owner User @relation(fields: [ownerId], references: [id])
   ownerId Int
   folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)
   folderId Int
+  size Int
+  uploadedAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  url String
 
 }
 
