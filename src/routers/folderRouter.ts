@@ -8,6 +8,6 @@ export const folderRouter = express.Router();
 folderRouter.get('/new', folderController.renderNewFolderForm);
 folderRouter.post('/new', folderValidator.createFolderValidator, folderController.createFolder);
 folderRouter.get('/:folderId/edit', ownsFolder, folderController.renderUpdateFolderForm);
-folderRouter.post('/:folderId/edit', ownsFolder, folderController.updateFolder);
+folderRouter.post('/:folderId/edit', ownsFolder, folderValidator.createFolderValidator, folderController.updateFolder);
 folderRouter.post('/:folderId/delete', ownsFolder, folderController.deleteFolder);
 folderRouter.get('/:folderId', ownsFolder, folderController.showFolder);

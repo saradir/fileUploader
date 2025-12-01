@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<%- include('./partials/head') %>
+<body>
+    <%- include("./partials/errors") %>
+    <div class="container">
+
+        <form action="/f/<%= folder.id %>/edit" method="post">
+
+            <label for="folder-name">Name:</label>
+            <input type="text" id="folder-name" name="name" class="folder-name" value="<%=folder.name %>"/>
+            
+            <button type="button" onclick="window.location.href='/f/<%= folder.id %>'">Back</button>
+            <button type="submit">Save</button>
+            
+        </form>
+    </div>
+    
+</body>
+</html>

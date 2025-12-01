@@ -29,8 +29,12 @@ export async function showFolder(req, res, next){
 }
 
 export function renderUpdateFolderForm(req, res, next){
-    return;
+        res.render("editFolder", {
+            title: "Edit folder",
+            folder: req.folder
+        })
 }
+
 
 export async function createFolder(req, res, next){
     const errors = validationResult(req);
@@ -64,7 +68,27 @@ export async function createFolder(req, res, next){
 }
 
 export async function updateFolder(req,res,next){
-    return;
+
+    const errors = validationResult(req);
+    const data = matchedData(req);
+
+    if(!errors.isEmpty()){
+        return res.status(400).render("editFolder",{
+            title: "Edit folder",
+            errors,
+            folder: req.folder,
+            oldInput: data
+        });
+    }
+    try{
+        await prisma.folder.update({
+            where: { id: req.folder.id},
+            data: { name: data.name}
+        });
+        res.redirect(`/f/${req.folder.id}`);
+    } catch(error){
+        return next(error);
+    }
 }
 
 export async function deleteFolder(req, res, next){
