@@ -38,7 +38,6 @@ model Folder{
 model File{
   id Int @id @default(autoincrement())
   originalName String
-  name String
   owner User @relation(fields: [ownerId], references: [id])
   ownerId Int
   folder Folder @relation(fields: [folderId], references: [id], onDelete: Cascade)

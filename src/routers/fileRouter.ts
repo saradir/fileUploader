@@ -3,7 +3,7 @@ import * as fileController from '../controllers/fileController';
 import multer from "multer";
 import { ownsFile } from '../middleware/auth/ownsFile';
 
-const upload = multer({ dest: "uploads/" });
+const upload = multer({ storage: multer.memoryStorage()});
 
 
 export const fileRouter = express.Router({ mergeParams: true });
