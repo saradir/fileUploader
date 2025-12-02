@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import { prisma } from '../lib/prisma';
 import { supabase } from '../config/supabase';
+import * as crypto from 'node:crypto'; // this is used to give unique id's to file uploads
 export function renderUploadForm(req, res){
     res.render('uploadFileForm', {
         title: "Upload File",
@@ -10,15 +11,15 @@ export function renderUploadForm(req, res){
 
 export async function uploadFile(req, res, next){
     
+    
+    const uploadId = crypto.randomUUID();
     console.log(req.file);
-
-
     try{
         const { data, error } = await supabase
         .storage
         .from(process.env.SUPABASE_BUCKET)
         .upload(
-            `${req.params.folderId}/${req.file.name}`,
+            `${req.params.folderId}/${uploadId}`,
             req.file.buffer,
             {
             contentType: req.file.mimetype,
@@ -36,13 +37,12 @@ export async function uploadFile(req, res, next){
             } = supabase
             .storage
             .from(process.env.SUPABASE_BUCKET)
-            .getPublicUrl(`${req.params.folderId}/${req.file.name}`
+            .getPublicUrl(`${req.params.folderId}/${uploadId}`
         );
         console.log("file is:",req.file);
 
         const file = await prisma.file.create({
             data:{
-                name: req.file.name,
                 originalName: req.file.originalname,
                 size: req.file.size,
                 ownerId: req.user.id,
@@ -50,6 +50,7 @@ export async function uploadFile(req, res, next){
                 url: publicUrl
             }
         });
+        console.log(publicUrl);
         res.redirect(`/f/${req.params.folderId}`);
     } catch(error){
         next(error);
