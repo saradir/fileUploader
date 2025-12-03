@@ -2,7 +2,6 @@ import { prisma } from '../../lib/prisma';
 
 export async function ownsFolder(req, res, next){
     const folderId = Number(req.params.folderId);
-    console.log(folderId);
     const folder = await prisma.folder.findUnique({
         where: {id: folderId},
         include: {files: true}

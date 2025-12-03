@@ -11,7 +11,10 @@ export function renderUploadForm(req, res){
 
 export async function uploadFile(req, res, next){
     
-    
+    if (!req.file){
+        return res.status(400).send("No file uploaded");
+
+    }
     const uploadId = crypto.randomUUID();
     console.log(req.file);
     try{
@@ -29,7 +32,7 @@ export async function uploadFile(req, res, next){
     );
 
     if(error){
-        console.log(error);
+        return next(error);
     }
 
         const {
@@ -39,7 +42,9 @@ export async function uploadFile(req, res, next){
             .from(process.env.SUPABASE_BUCKET)
             .getPublicUrl(`${req.params.folderId}/${uploadId}`
         );
-        console.log("file is:",req.file);
+
+        if (!publicUrl) return next(new Error("Could not generate public URL"));
+
 
         const file = await prisma.file.create({
             data:{

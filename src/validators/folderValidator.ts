@@ -1,5 +1,6 @@
-import { body } from 'express-validator';
+import { body, param } from 'express-validator';
 import { prisma } from '../lib/prisma';
+
  
 const alphaErr = "must only contain letters or numbers.";
 const lengthErr = "must be between 1 and 20 characters.";
@@ -21,4 +22,11 @@ export const createFolderValidator = [
         }
         return true;
     }).withMessage(`${duplicateErr}`)
+];
+
+export const folderIdValidator = [
+    param("folderId")
+    .isInt({min: 1})
+    .withMessage("Invalid folder ID")
+    .toInt()
 ];
