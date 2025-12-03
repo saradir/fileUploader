@@ -16,7 +16,6 @@ export async function uploadFile(req, res, next){
 
     }
     const uploadId = crypto.randomUUID();
-    console.log(req.file);
     try{
         const { data, error } = await supabase
         .storage
@@ -52,10 +51,10 @@ export async function uploadFile(req, res, next){
                 size: req.file.size,
                 ownerId: req.user.id,
                 folderId: Number(req.params.folderId),
-                url: publicUrl
+                url: publicUrl,
+                storagePath: `${req.params.folderId}/${uploadId}`
             }
         });
-        console.log(publicUrl);
         res.redirect(`/f/${req.params.folderId}`);
     } catch(error){
         next(error);
@@ -69,4 +68,24 @@ export async function showFile(req, res, next){
         title: req.file.originalName,
         file: req.file
     })
+}
+
+export async function deleteFile(req, res, next){
+    try{
+        const {data, error } = await supabase
+        .storage
+        .from(process.env.SUPABASE_BUCKET)
+        .remove([req.file.storagePath]);
+
+        if(error){
+            return next(error);
+        }
+        const deletedFile = await prisma.file.delete({
+            where:{id: req.file.id}
+        });
+        
+        res.redirect(`/f/${req.params.folderId}`);
+    } catch (error){
+        next(error);
+    }
 }

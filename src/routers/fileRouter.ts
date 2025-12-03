@@ -10,4 +10,5 @@ export const fileRouter = express.Router({ mergeParams: true });
 
 fileRouter.get('/upload', fileController.renderUploadForm);
 fileRouter.post('/upload', upload.single('file'), fileController.uploadFile);
+fileRouter.post('/:fileId/delete', ownsFile, fileController.deleteFile);
 fileRouter.get('/:fileId', ownsFile, fileController.showFile);
