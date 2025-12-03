@@ -1,5 +1,6 @@
 import { matchedData, validationResult } from "express-validator";
 import { prisma } from '../lib/prisma';
+import { supabase } from "../config/supabase";
 
 
 export function renderNewFolderForm(req, res, next){
@@ -93,6 +94,8 @@ export async function updateFolder(req,res,next){
 
 export async function deleteFolder(req, res, next){
     try{
+
+        await deleteAllFilesInFolder(req.folder.id);
         const deletedFolder = await prisma.folder.delete({
             where: {id: req.folder.id }
         });
@@ -100,4 +103,26 @@ export async function deleteFolder(req, res, next){
     } catch (error){
         next(error);
     }
+}
+
+
+async function deleteAllFilesInFolder(folderId){
+    const files = await prisma.file.findMany({
+        where: {folderId},
+        select: {id: true, storagePath: true}
+    });
+
+    const  paths = files.map(f => f.storagePath);
+    
+    if (paths.length > 0) {
+        const {data, error } = await supabase
+            .storage
+            .from(process.env.SUPABASE_BUCKET)
+            .remove(paths);
+
+        if(error) throw error;
+    }
+    await prisma.file.deleteMany({
+    where: { folderId }
+    });
 }
