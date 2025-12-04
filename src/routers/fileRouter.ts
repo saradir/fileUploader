@@ -1,14 +1,13 @@
 import express from 'express';
 import * as fileController from '../controllers/fileController';
-import multer from "multer";
+import { uploadFile } from "../middleware/uploadFile";
 import { ownsFile } from '../middleware/auth/ownsFile';
 
-const upload = multer({ storage: multer.memoryStorage()});
 
 
 export const fileRouter = express.Router({ mergeParams: true });
 
 fileRouter.get('/upload', fileController.renderUploadForm);
-fileRouter.post('/upload', upload.single('file'), fileController.uploadFile);
+fileRouter.post("/upload", uploadFile, fileController.uploadFile);
 fileRouter.post('/:fileId/delete', ownsFile, fileController.deleteFile);
 fileRouter.get('/:fileId', ownsFile, fileController.showFile);
