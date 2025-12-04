@@ -1,0 +1,8 @@
+<nav>
+    <a href="/">Homepage</a>
+    <% if(currentUser) { %>
+        <a href="/u/<%= currentUser.id %>">Profile<a>
+            
+        <a href="/u/logout">Logout</a>
+        <% } %>
+</nav>

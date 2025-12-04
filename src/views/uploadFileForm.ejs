@@ -4,7 +4,8 @@
 <%- include('./partials/head') %>
 <div class="container">
     <body>
-      <%- include('./partials/errors') %>
+        <%- include('./partials/nav') %> 
+        <%- include('./partials/errors') %>
         <form action="/f/<%= folderId %>/file/upload" method="post" enctype="multipart/form-data">
     
             <label for="file">File:</label>

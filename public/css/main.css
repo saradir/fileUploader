@@ -1,0 +1,329 @@
+/* ==========================================================
+   GLOBAL BASE — Soft Dark Mode UI
+========================================================== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #1d1f23;
+  color: #e4e6eb;
+  line-height: 1.65;
+  padding-bottom: 4rem;
+}
+
+.container {
+  max-width: 750px;
+  margin: 2rem auto;
+  padding: 1.8rem;
+  background: #272a2f;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+}
+
+/* ==========================================================
+   TYPOGRAPHY
+========================================================== */
+
+h1, h2, h3 {
+  margin-bottom: 1rem;
+  font-weight: 600;
+  color: #f2f3f5;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: #cfd2d6;
+}
+
+a {
+  color: #7aa7ff;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #9bc0ff;
+  text-decoration: underline;
+}
+
+/* ==========================================================
+   FORMS — Inputs & Buttons
+========================================================== */
+
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: 0.95rem;
+  color: #d5d7db;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"] {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  margin-bottom: 1.2rem;
+  background: #1f2125;
+  border: 1px solid #3a3d43;
+  border-radius: 8px;
+  color: #e4e6eb;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+input:focus {
+  border-color: #6aa6ff;
+  box-shadow: 0 0 0 3px rgba(106,166,255,0.3);
+  outline: none;
+}
+
+button,
+a.button {
+  display: inline-block;
+  padding: 0.65rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: #4267b2;
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+
+button:hover,
+a.button:hover {
+  background: #3b5ca0;
+}
+
+button:active,
+a.button:active {
+  transform: scale(0.97);
+}
+
+button.secondary {
+  background: #3a3d43;
+  color: #dadce1;
+}
+
+button.secondary:hover {
+  background: #4b4f55;
+}
+
+button.delete,
+a.delete {
+  background: #b24949;
+}
+
+button.delete:hover,
+a.delete:hover {
+  background: #9d3f3f;
+}
+
+/* ==========================================================
+   ERROR LIST
+========================================================== */
+
+.error-list {
+  background: #3a1f1f;
+  color: #ffb3b3;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #7b3b3b;
+  margin-bottom: 1.25rem;
+}
+
+/* ==========================================================
+   NAVBAR
+========================================================== */
+
+nav {
+  background: #272a2f;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+  border-radius: 0 0 14px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav a {
+  color: #e4e6eb;
+  font-weight: 500;
+}
+
+nav a:hover {
+  color: #7aa7ff;
+}
+
+/* ==========================================================
+   GRID LAYOUT (Folders & Files)
+========================================================== */
+
+.folder-grid,
+.file-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  margin-top: 1.2rem;
+}
+
+/* ==========================================================
+   CARD BASE STYLES
+========================================================== */
+
+.folder-card,
+.file-card {
+  background: #1f2125;
+  border: 1px solid #34373d;
+  padding: 1rem;
+  border-radius: 12px;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  position: relative; /* Required for invisible link overlay */
+
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.folder-card:hover,
+.file-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45);
+}
+
+/* ==========================================================
+   FULL-CARD CLICK SYSTEM (CSS only!)
+========================================================== */
+
+.card-link-wrapper {
+  position: relative;
+}
+
+/* Invisible anchor stretched across the entire card */
+.card-link-wrapper a.card-link {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  text-indent: -9999px; /* hides text but keeps link accessible */
+}
+
+/* Buttons and form elements must stay above the invisible link */
+.folder-card button,
+.file-card button,
+.folder-card form,
+.file-card form {
+  position: relative;
+  z-index: 2;
+}
+
+/* ==========================================================
+   ICONS — Folder & File Types
+========================================================== */
+
+/* Folder icon */
+.folder-card::before {
+  content: "📁";
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+  z-index: 1;
+}
+
+/* Default file icon */
+.file-card::before {
+  content: "📄";
+  font-size: 2rem;
+  margin-bottom: 0.6rem;
+  z-index: 1;
+}
+
+/* PDF files */
+.file-card[data-type="pdf"]::before {
+  content: "📕";
+}
+
+/* Images */
+.file-card[data-type="image"]::before {
+  content: "🖼️";
+}
+
+/* Add more types easily:
+.file-card[data-type="zip"]::before { content: "🗜️"; }
+.file-card[data-type="doc"]::before { content: "📘"; }
+*/
+
+/* ==========================================================
+   CARD TITLES
+========================================================== */
+
+.folder-card a,
+.file-card a,
+.card-title {
+  font-size: 1rem;
+  color: #dfe3e8;
+  margin-bottom: 0.6rem;
+  word-break: break-word;
+  text-decoration: none;
+  z-index: 2;
+}
+
+.folder-card a:hover,
+.file-card a:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================
+   SHOW FILE PAGE
+========================================================== */
+
+.file-info {
+  background: #1f2125;
+  border-radius: 10px;
+  padding: 1rem 1.2rem;
+  border: 1px solid #34373d;
+  margin-bottom: 1.5rem;
+}
+
+.download-file-btn {
+  padding: 0.7rem 1.2rem;
+  background: #4267b2;
+  border-radius: 8px;
+  font-weight: 500;
+  display: inline-block;
+  color: white;
+}
+
+/* ==========================================================
+   404 PAGE
+========================================================== */
+
+.error-404 {
+  text-align: center;
+  font-size: 3rem;
+  margin-top: 4rem;
+  color: #888;
+}
+
+/* ==========================================================
+   UTILITIES
+========================================================== */
+
+.text-center { text-align: center; }
+.mt-1 { margin-top: 0.75rem; }
+.mt-2 { margin-top: 1.35rem; }
+.mt-3 { margin-top: 2rem; }
+
+.flex { display: flex; }
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

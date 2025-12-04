@@ -2,11 +2,12 @@
 <html lang="en">
 <%- include('./partials/head') %>
 <body>
+    <%- include('./partials/nav') %> 
     <div class="container">
         
         <h1>Welcome <%=currentUser.name%></h1>
 
-        <div class="folderContainer">
+        <div class="folder-grid">
             <h2>My Folders</h2>
             <% if(folders.length === 0){ %>
                 <p>No folders yet. </p>
@@ -14,12 +15,11 @@
             <% } %>
 
             <% folders.forEach(folder => { %>
-                <div class="folderCard">
+                <div class="folder-card card-link-wrapper" >
 
-                    <span>
-                        <a href="<%= `/f/${folder.id}` %>" > <%= folder.name %></a>    
-                    </span>
-                    
+                    <a href="/f/<%= folder.id %>" class="card-link">Open</a>
+                    <a href="/f/<%= folder.id %>" class="card-title"><%= folder.name %></a>
+
                 </div>
                 
            <% }); %>
