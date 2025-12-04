@@ -3,6 +3,8 @@
     <% if(currentUser) { %>
         <a href="/u/<%= currentUser.id %>">Profile<a>
             
-        <a href="/u/logout">Logout</a>
-        <% } %>
+        <a href="/u/signout">Sign out</a>
+        <% } else{ %>
+            <a href="/u/signin">Sign in</a>
+            <% } %>
 </nav>

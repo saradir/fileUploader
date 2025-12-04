@@ -11,5 +11,5 @@ userRouter.post('/signup', userValidator.signupValidator, userController.createU
 
 userRouter.get('/signin', userController.renderSigninForm);
 userRouter.post('/signin', userValidator.signinValidator, userController.signin );
-
+userRouter.get('/signout', userController.signout);
 userRouter.get('/:id', ensureAuth, ownsProfile, userController.showProfile);

@@ -96,3 +96,11 @@ export async function showProfile(req, res, next){
     }
 
 }
+
+export async function signout(req, res, next) {
+    req.logout(function(err) {
+        if(err) return next(err);
+        res.redirect('/');
+    });
+    
+}
