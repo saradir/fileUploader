@@ -31,6 +31,7 @@ model Folder{
   files File[]
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  token String @unique
 
   @@unique([ownerId, name])
 }

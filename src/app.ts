@@ -11,7 +11,8 @@ import path from 'node:path';
 
 import { userRouter } from './routers/userRouter';
 import { folderRouter } from './routers/folderRouter';
-import { fileRouter } from './routers/fileRouter';
+import { shareRouter } from './routers/shareRouter';
+
 
 import { ensureAuth } from './middleware/auth/ensureAuth';
 
@@ -47,6 +48,7 @@ app.use((req, res, next) => {
 })
 
 // ROUTERS
+app.use('/share', shareRouter);
 app.use('/u', userRouter);
 app.use('/f', ensureAuth, folderRouter);
 

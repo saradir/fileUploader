@@ -2,17 +2,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('./partials/head') %>
-<div class="container">
+
     <body>
         <%- include('./partials/nav') %> 
-        <%- include('./partials/errors') %>
-        <form action="/f/<%= folderId %>/file/upload" method="post" enctype="multipart/form-data">
-    
-            <label for="file">File:</label>
-            <input type="file" name="file" id="file" required />
-    
-            <button type="submit">Upload</button>
-        </form>
+        <div class="container">
+            <%- include('./partials/errors') %>
+            <form action="/f/<%= folderId %>/file/upload" method="post" enctype="multipart/form-data">
+                <label for="file">File:</label>
+                <input type="file" name="file" id="file" required />
+                <button type="submit">Upload</button>
+            </form>
+        </div>
     </body>
-</div>
+
 </html>

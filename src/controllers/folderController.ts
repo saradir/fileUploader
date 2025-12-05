@@ -1,7 +1,7 @@
 import { matchedData, validationResult } from "express-validator";
 import { prisma } from '../lib/prisma';
 import { supabase } from "../config/supabase";
-
+import { randomUUID } from "node:crypto";
 
 export function renderNewFolderForm(req, res, next){
   res.render("createFolder", {
@@ -22,7 +22,15 @@ export async function showFolder(req, res, next){
         }
         return res.render("showFolder", {
             title: `${folder.name}`,
-            folder
+            folder,
+            permission: "write",
+            fileUrl: (file) => `/f/${folder.id}/file/${file.id}`,
+            uploadUrl: `/f/${folder.id}/file/upload`,
+            deleteFileUrl: (file) => `/f/${folder.id}/file/${file.id}/delete`,
+            deleteFolderUrl: `/f/${folder.id}/delete`,
+            shareLink: `${req.protocol}://${req.get("host")}/share/f/${folder.token}`
+
+
         });
     } catch (error){
         next(error);
@@ -52,7 +60,8 @@ export async function createFolder(req, res, next){
         const folder = await prisma.folder.create({
             data:{
                 name: data.name,
-                ownerId: req.user.id
+                ownerId: req.user.id,
+                token: randomUUID()
             },
         });
 

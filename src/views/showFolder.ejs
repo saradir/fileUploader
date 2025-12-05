@@ -5,7 +5,12 @@
     <%- include('./partials/nav') %> 
     <div class="container">
         <h2><%= folder.name %></h2>
-        <a href="/f/<%= folder.id %>/edit">Edit</a>
+        <% if (permission === "write") { %>
+
+            <a href="/f/<%= folder.id %>/edit">Edit</a>
+            <button type="button" class="share-button" onclick="shareFolder()">Share</button>
+        <% } %>
+
 
         <h3>Files:</h3>
 
@@ -15,13 +20,13 @@
             <% } %>
             <% folder.files.forEach( file => { %>
                 <div class="file-card card-link-wrapper">
-                    <a href="/f/<%= folder.id %>/file/<%= file.id %>" class="card-link"> Open </a>
+                    <a href="<%= fileUrl(file) %>" class="card-link"> Open </a>
                  
-                        <a href="/f/<%= folder.id %>/file/<%= file.id %>" class="card-title">
+                        <a href="<%= fileUrl(file) %>" class="card-title">
                          <%= file.originalName %>
                         </a>
 
-                      <form action="/f/<%= folder.id %>/file/<%= file.id %>/delete" method="post" onsubmit="return confirm('Delete this file?');">
+                      <form action="<%= deleteFileUrl(file) %>" method="post" onsubmit="return confirm('Delete this file?');">
                           <button type="submit" class="delete">Delete</button>
                       </form>
                  
@@ -30,15 +35,28 @@
             <% }) %>
         </div>
 
-        <a href="/f/<%= folder.id %>/file/upload">Upload new file</a>
-        <form action="/f/<%= folder.id %>/delete" method="post" onsubmit="return confirm('Delete this folder?');">
-            <button type="submit">Delete Folder</button>
-        </form>
+        <% if (permission === "write") { %>
+            <a href="%= uploadUrl %>">Upload new file</a>
+            <form action="<%= deleteFolderUrl %>" method="post" onsubmit="return confirm('Delete this folder?');">
+                <button type="submit">Delete Folder</button>
+            </form>
+        <% } %>
 
 
     </div>
     
-
+    <script>
+        function shareFolder(){
+            const shareUrl = window.location.origin + "/share/f/<%= folder.token %>";
+            navigator.clipboard.writeText(shareUrl)
+            .then(() => {
+                alert("Link copied to clipboard!");
+            })
+            .catch(err => {
+                console.error("Failed to copy:", err);
+            });
+        }
+    </script>
 
 
 </body>
